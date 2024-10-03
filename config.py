@@ -6,8 +6,8 @@ API_HASH = os.getenv("API_HASH", "a5dc7fec8302615f5b441ec5e238cd46")  # Replace 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "7116266807:AAFiuS4MxcubBiHRyzKEDnmYPCRiS0f3aGU")  # Replace YOUR_BOT_TOKEN
 
 # Watermark settings
-DEFAULT_WATERMARK_TEXT = os.getenv("DEFAULT_WATERMARK_TEXT", "Anime_warrior_tamil")
-DEFAULT_WATERMARK_PATH = os.getenv("DEFAULT_WATERMARK_PATH", "default_watermark.png")
+WATERMARK_TEXT = os.getenv("DEFAULT_WATERMARK_TEXT", "Anime_warrior_tamil")
+WATERMARK_PATH = os.getenv("DEFAULT_WATERMARK_PATH", "default_watermark.png")
 
 # FFmpeg settings (optional)
 FFMPEG_PATH = os.getenv("FFMPEG_PATH", "ffmpeg")
