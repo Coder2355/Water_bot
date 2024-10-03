@@ -12,6 +12,9 @@ WATERMARK_PATH = "default_watermark.png"  # Path to default watermark image
 # Initialize the bot
 bot = Client("watermark_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+# A dictionary to store file paths by message ID
+file_paths = {}
+
 # Utility function for adding a watermark
 async def add_watermark(input_file, output_file, watermark=WATERMARK_PATH, position="top-right"):
     positions = {
@@ -62,11 +65,15 @@ async def start(bot, message):
 @bot.on_message(filters.video)
 async def video_handler(bot, message):
     video = await message.download()
+    
+    # Store the video path with the message ID
+    file_paths[message.message_id] = video
+
     await message.reply_text(
         "What would you like to do with this video?",
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("Add Watermark", callback_data=f"add_watermark|{video}"),
-             InlineKeyboardButton("Remove Watermark", callback_data=f"remove_watermark|{video}")]
+            [InlineKeyboardButton("Add Watermark", callback_data=f"add_watermark|{message.message_id}"),
+             InlineKeyboardButton("Remove Watermark", callback_data=f"remove_watermark|{message.message_id}")]
         ])
     )
 
@@ -75,7 +82,14 @@ async def video_handler(bot, message):
 async def callback_query_handler(bot, query):
     data = query.data.split("|")
     action = data[0]
-    input_file = data[1]
+    message_id = int(data[1])
+
+    # Retrieve the input file using the message ID
+    input_file = file_paths.get(message_id)
+
+    if not input_file:
+        await query.message.reply_text("File not found or already processed.")
+        return
 
     output_file = f"output_{os.path.basename(input_file)}"
 
@@ -98,6 +112,7 @@ async def callback_query_handler(bot, query):
     # Clean up
     os.remove(input_file)
     os.remove(output_file)
+    file_paths.pop(message_id, None)  # Remove the file path after processing
 
 if __name__ == "__main__":
     bot.run()
