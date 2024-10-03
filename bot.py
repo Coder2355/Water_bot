@@ -3,7 +3,7 @@ import subprocess
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import asyncio
-import config
+from config import WATERMARK_PATH, WATERMARK_TEXT, BOT_TOKEN, API_HASH, API_ID
 
 # Default watermark settings
 WATERMARK_TEXT = "Anime_warrior_tamil"  # Default watermark text
