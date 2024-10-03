@@ -1,0 +1,4 @@
+pyrogram==2.0.106
+tgcrypto==1.2.2  # For faster encryption/decryption with Pyrogram
+ffmpeg-python==0.2.0  # Python bindings for FFmpeg (optional, but helpful for advanced usage)
+asyncio==3.4.3  # For asynchronous operations
